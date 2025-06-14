@@ -1,39 +1,47 @@
 package com.example.bobfriend.models;
 
 public class Restaurant {
-    private int id;
+    private String id;
     private String name;
     private String category;
-    private String latitude;
-    private String longitude;
-    private float rating;
+    private String address;
+    private String phone;
+    private float rate;
 
-    public Restaurant() {}
-
-    public Restaurant(String name, String category, String latitude, String longitude, float rating) {
+    public Restaurant(String id, String name, String category, String address, String phone, float rate) {
+        this.id = id;
         this.name = name;
         this.category = category;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.rating = rating;
+        this.address = address;
+        this.phone = phone;
+        this.rate = rate;
     }
 
-    // Getters and Setters
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public String getId() {
+        return id;
+    }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public String getName() {
+        return name;
+    }
 
-    public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
+    public String getCategory() {
+        return category;
+    }
 
-    public String getLatitude() { return latitude; }
-    public void setLatitude(String latitude) { this.latitude = latitude; }
+    public String getAddress() {
+        return address;
+    }
 
-    public String getLongitude() { return longitude; }
-    public void setLongitude(String longitude) { this.longitude = longitude; }
+    public String getPhone() {
+        return phone;
+    }
 
-    public float getRating() { return rating; }
-    public void setRating(float rating) { this.rating = rating; }
+    public float getRate() {
+        return rate;
+    }
+
+    public void setRate(float rate) {
+        this.rate = rate;
+    }
 }

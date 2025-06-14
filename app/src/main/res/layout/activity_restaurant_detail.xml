@@ -172,54 +172,38 @@
             android:background="@android:color/white"
             android:layout_marginTop="8dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="리뷰"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="#333333"
-                android:layout_marginBottom="16dp" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp"
-                android:background="#F8F9FA"
-                android:layout_marginBottom="12dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="8dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="김○○"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        android:textColor="#333333" />
-
-                    <RatingBar
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:numStars="5"
-                        android:rating="5"
-                        android:isIndicator="true"
-                        style="?android:attr/ratingBarStyleSmall" />
-                </LinearLayout>
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="정말 맛있어요! 김치찌개 국물이 진짜 깊고 맛있습니다."
+                    android:layout_weight="1"
+                    android:text="리뷰"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="#333333" />
+
+                <Button
+                    android:id="@+id/btnWriteReview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:text="리뷰 작성"
                     android:textSize="14sp"
-                    android:textColor="#666666" />
+                    android:background="@drawable/button_primary"
+                    android:textColor="@android:color/white"
+                    android:paddingHorizontal="16dp" />
             </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewReviews"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false" />
+
         </LinearLayout>
 
         <!-- 하단 버튼들 -->

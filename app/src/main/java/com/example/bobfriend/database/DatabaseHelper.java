@@ -12,13 +12,14 @@ import java.util.List;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "bobfriend.db";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2; // 버전 업그레이드
 
     // 테이블 명
     private static final String TABLE_USERS = "users";
     private static final String TABLE_RESTAURANTS = "restaurants";
     private static final String TABLE_SOLO_POSTS = "solo_posts";
     private static final String TABLE_MESSAGES = "messages";
+    private static final String TABLE_REVIEWS = "reviews"; // 리뷰 테이블 추가
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -37,9 +38,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "name TEXT," +
                 "category TEXT," +
-                "latitude TEXT," +
-                "longitude TEXT," +
-                "rating REAL)");
+                "address TEXT," +
+                "phone TEXT," +
+                "rate REAL)");
 
         // 혼밥 모집글
         db.execSQL("CREATE TABLE " + TABLE_SOLO_POSTS + "(" +
@@ -60,16 +61,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "receiver TEXT," +
                 "content TEXT," +
                 "timestamp TEXT)");
+
+        // 리뷰 테이블
+        db.execSQL("CREATE TABLE " + TABLE_REVIEWS + "(" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "username TEXT," +
+                "restaurantId TEXT," +
+                "restaurantName TEXT," +
+                "rating REAL," +
+                "comment TEXT," +
+                "createdAt TEXT)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // 버전 업그레이드 시 테이블 삭제 후 재생성
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_RESTAURANTS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_SOLO_POSTS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MESSAGES);
-        onCreate(db);
+        if (oldVersion < 2) {
+            // 리뷰 테이블 추가
+            db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_REVIEWS + "(" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "username TEXT," +
+                    "restaurantId TEXT," +
+                    "restaurantName TEXT," +
+                    "rating REAL," +
+                    "comment TEXT," +
+                    "createdAt TEXT)");
+        }
     }
 
     // 사용자
@@ -102,9 +118,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put("name", restaurant.getName());
         values.put("category", restaurant.getCategory());
-        values.put("latitude", restaurant.getLatitude());
-        values.put("longitude", restaurant.getLongitude());
-        values.put("rating", restaurant.getRating());
+        values.put("address", restaurant.getAddress());
+        values.put("phone", restaurant.getPhone());
+        values.put("rate", restaurant.getRate());
         return db.insert(TABLE_RESTAURANTS, null, values);
     }
 
@@ -114,18 +130,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_RESTAURANTS, null);
         if (cursor.moveToFirst()) {
             do {
-                Restaurant r = new Restaurant();
-                r.setId(cursor.getInt(cursor.getColumnIndexOrThrow("id")));
-                r.setName(cursor.getString(cursor.getColumnIndexOrThrow("name")));
-                r.setCategory(cursor.getString(cursor.getColumnIndexOrThrow("category")));
-                r.setLatitude(cursor.getString(cursor.getColumnIndexOrThrow("latitude")));
-                r.setLongitude(cursor.getString(cursor.getColumnIndexOrThrow("longitude")));
-                r.setRating(cursor.getFloat(cursor.getColumnIndexOrThrow("rating")));
+                Restaurant r = new Restaurant(
+                        cursor.getString(cursor.getColumnIndexOrThrow("id")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("name")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("category")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("address")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("phone")),
+                        cursor.getFloat(cursor.getColumnIndexOrThrow("rate"))
+                );
                 list.add(r);
             } while (cursor.moveToNext());
         }
         cursor.close();
         return list;
+    }
+
+    public Restaurant getRestaurant(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_RESTAURANTS + " WHERE id=?", new String[]{String.valueOf(id)});
+        if (cursor.moveToFirst()) {
+            Restaurant r = new Restaurant(
+                    cursor.getString(cursor.getColumnIndexOrThrow("id")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("name")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("category")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("address")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("phone")),
+                    cursor.getFloat(cursor.getColumnIndexOrThrow("rate"))
+            );
+            cursor.close();
+            return r;
+        }
+        cursor.close();
+        return null;
     }
 
     // 혼밥 모집글
@@ -143,7 +179,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.insert(TABLE_SOLO_POSTS, null, values);
     }
 
-    public List<SoloPost> getSoloPostsByRestaurant(int restaurantId) {
+    public List<SoloPost> getSoloPostsByRestaurant(String restaurantId) {
         List<SoloPost> list = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_SOLO_POSTS + " WHERE restaurantId=?", new String[]{String.valueOf(restaurantId)});
@@ -177,25 +213,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.insert(TABLE_MESSAGES, null, values);
     }
 
-    public Restaurant getRestaurant(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_RESTAURANTS + " WHERE id=?", new String[]{String.valueOf(id)});
-        if (cursor.moveToFirst()) {
-            Restaurant r = new Restaurant();
-            r.setId(cursor.getInt(cursor.getColumnIndexOrThrow("id")));
-            r.setName(cursor.getString(cursor.getColumnIndexOrThrow("name")));
-            r.setCategory(cursor.getString(cursor.getColumnIndexOrThrow("category")));
-            r.setLatitude(cursor.getString(cursor.getColumnIndexOrThrow("latitude")));
-            r.setLongitude(cursor.getString(cursor.getColumnIndexOrThrow("longitude")));
-            r.setRating(cursor.getFloat(cursor.getColumnIndexOrThrow("rating")));
-            cursor.close();
-            return r;
-        }
-        cursor.close();
-        return null;
-    }
-
-
     public List<Message> getMessagesBetweenUsers(String user1, String user2) {
         List<Message> list = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -215,5 +232,64 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         return list;
+    }
+
+    // 리뷰 관련 메서드
+    public long insertReview(Review review) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("username", review.getUsername());
+        values.put("restaurantId", review.getRestaurantId());
+        values.put("restaurantName", review.getRestaurantName());
+        values.put("rating", review.getRating());
+        values.put("comment", review.getComment());
+        values.put("createdAt", review.getCreatedAt());
+        return db.insert(TABLE_REVIEWS, null, values);
+    }
+
+    public List<Review> getReviewsByRestaurant(String restaurantId) {
+        List<Review> list = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_REVIEWS + " WHERE restaurantId=? ORDER BY id DESC",
+                new String[]{restaurantId});
+        if (cursor.moveToFirst()) {
+            do {
+                Review review = new Review();
+                review.setId(cursor.getInt(cursor.getColumnIndexOrThrow("id")));
+                review.setUsername(cursor.getString(cursor.getColumnIndexOrThrow("username")));
+                review.setRestaurantId(cursor.getString(cursor.getColumnIndexOrThrow("restaurantId")));
+                review.setRestaurantName(cursor.getString(cursor.getColumnIndexOrThrow("restaurantName")));
+                review.setRating(cursor.getFloat(cursor.getColumnIndexOrThrow("rating")));
+                review.setComment(cursor.getString(cursor.getColumnIndexOrThrow("comment")));
+                review.setCreatedAt(cursor.getString(cursor.getColumnIndexOrThrow("createdAt")));
+                list.add(review);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return list;
+    }
+
+    public float getAverageRating(String restaurantId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT AVG(rating) as avgRating FROM " + TABLE_REVIEWS + " WHERE restaurantId=?",
+                new String[]{restaurantId});
+        float avgRating = 0f;
+        if (cursor.moveToFirst()) {
+            avgRating = cursor.getFloat(cursor.getColumnIndexOrThrow("avgRating"));
+        }
+        cursor.close();
+        return avgRating;
+    }
+
+    public boolean hasUserReviewed(String username, String restaurantId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + TABLE_REVIEWS + " WHERE username=? AND restaurantId=?",
+                new String[]{username, restaurantId});
+        boolean hasReviewed = false;
+        if (cursor.moveToFirst()) {
+            hasReviewed = cursor.getInt(0) > 0;
+        }
+        cursor.close();
+        return hasReviewed;
     }
 }

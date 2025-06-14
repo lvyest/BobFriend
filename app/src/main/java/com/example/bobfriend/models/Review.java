@@ -3,7 +3,7 @@ package com.example.bobfriend.models;
 public class Review {
     private int id;
     private String username;
-    private int restaurantId;
+    private String restaurantId;
     private String restaurantName;
     private float rating;
     private String comment;
@@ -11,7 +11,7 @@ public class Review {
 
     public Review() {}
 
-    public Review(String username, int restaurantId, String restaurantName,
+    public Review(String username, String restaurantId, String restaurantName,
                   float rating, String comment, String createdAt) {
         this.username = username;
         this.restaurantId = restaurantId;
@@ -28,8 +28,8 @@ public class Review {
     public String getUsername() { return username; }
     public void setUsername(String username) { this.username = username; }
 
-    public int getRestaurantId() { return restaurantId; }
-    public void setRestaurantId(int restaurantId) { this.restaurantId = restaurantId; }
+    public String getRestaurantId() { return restaurantId; }
+    public void setRestaurantId(String restaurantId) { this.restaurantId = restaurantId; }
 
     public String getRestaurantName() { return restaurantName; }
     public void setRestaurantName(String restaurantName) { this.restaurantName = restaurantName; }
