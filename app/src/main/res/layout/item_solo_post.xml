@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="2dp"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- 상단 정보 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="12dp">
+
+            <!-- 프로필 이미지 -->
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/image"
+                android:layout_marginEnd="12dp" />
+
+            <!-- 사용자 정보 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvNickname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="닉네임"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="#333333" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvAge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="25세"
+                        android:textSize="12sp"
+                        android:textColor="#666666"
+                        android:layout_marginEnd="8dp" />
+
+                    <TextView
+                        android:id="@+id/tvGender"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="남성"
+                        android:textSize="12sp"
+                        android:textColor="#666666" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- 작성시간 -->
+            <TextView
+                android:id="@+id/tvCreatedAt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2시간 전"
+                android:textSize="11sp"
+                android:textColor="#999999"
+                android:layout_gravity="top" />
+        </LinearLayout>
+
+        <!-- 희망 시간 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="8dp">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/image"
+                android:layout_marginEnd="6dp" />
+
+            <TextView
+                android:id="@+id/tvDateTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2024-12-25 18:00"
+                android:textSize="14sp"
+                android:textColor="#333333" />
+        </LinearLayout>
+
+        <!-- 식사 스타일 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="12dp">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/image"
+                android:layout_marginEnd="6dp" />
+
+            <TextView
+                android:id="@+id/tvMealStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="대화하며 식사"
+                android:textSize="14sp"
+                android:textColor="#333333" />
+        </LinearLayout>
+
+        <!-- 하단 버튼 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnJoin"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_weight="1"
+                android:text="합류하기"
+                android:textSize="14sp"
+                android:background="@drawable/image"
+                android:backgroundTint="#4ECDC4"
+                android:textColor="@android:color/white"
+                android:layout_marginEnd="8dp" />
+
+            <Button
+                android:id="@+id/btnChat"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_weight="1"
+                android:text="채팅하기"
+                android:textSize="14sp"
+                android:background="@drawable/image"
+                android:backgroundTint="#45B7D1"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

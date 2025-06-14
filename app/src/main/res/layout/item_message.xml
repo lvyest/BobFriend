@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <!-- 내 메시지 -->
+    <LinearLayout
+        android:id="@+id/llMyMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="60dp"
+            android:gravity="end">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="#4ECDC4">
+
+                <TextView
+                    android:id="@+id/tvMyMessage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="내 메시지"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:padding="12dp"
+                    android:maxWidth="250dp" />
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/tvMyMessageTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12:34"
+                android:textSize="10sp"
+                android:textColor="#999999"
+                android:layout_marginTop="2dp"
+                android:layout_gravity="end" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 상대방 메시지 -->
+    <LinearLayout
+        android:id="@+id/llOtherMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="start"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/image"
+            android:background="@drawable/image"
+            android:layout_marginEnd="8dp"
+            android:layout_gravity="bottom" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginEnd="60dp">
+
+            <TextView
+                android:id="@+id/tvOtherNickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="상대방"
+                android:textSize="12sp"
+                android:textColor="#666666"
+                android:layout_marginBottom="2dp" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="@android:color/white">
+
+                <TextView
+                    android:id="@+id/tvOtherMessage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="상대방 메시지"
+                    android:textColor="#333333"
+                    android:textSize="14sp"
+                    android:padding="12dp"
+                    android:maxWidth="250dp" />
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/tvOtherMessageTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12:34"
+                android:textSize="10sp"
+                android:textColor="#999999"
+                android:layout_marginTop="2dp" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

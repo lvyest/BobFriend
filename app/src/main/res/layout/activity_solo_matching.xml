@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F5F5F5">
+
+    <!-- 상단 헤더 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:background="@android:color/white"
+        android:elevation="2dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/image"
+            android:layout_gravity="center_vertical" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="혼밥족 합석하기"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:gravity="center"
+            android:layout_gravity="center_vertical" />
+
+        <View
+            android:layout_width="24dp"
+            android:layout_height="24dp" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- 모집글 작성 섹션 -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                android:layout_marginBottom="20dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="합석 모집글 작성"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="#333333"
+                        android:layout_marginBottom="16dp" />
+
+                    <!-- 나이 입력 -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="나이"
+                        android:textSize="14sp"
+                        android:textColor="#666666"
+                        android:layout_marginBottom="4dp" />
+
+                    <EditText
+                        android:id="@+id/etAge"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:hint="나이를 입력하세요"
+                        android:inputType="number"
+                        android:background="@drawable/image"
+                        android:padding="12dp"
+                        android:layout_marginBottom="16dp" />
+
+                    <!-- 성별 선택 -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="성별"
+                        android:textSize="14sp"
+                        android:textColor="#666666"
+                        android:layout_marginBottom="8dp" />
+
+                    <RadioGroup
+                        android:id="@+id/rgGender"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="16dp">
+
+                        <RadioButton
+                            android:id="@+id/rbMale"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="남성"
+                            android:textSize="14sp" />
+
+                        <RadioButton
+                            android:id="@+id/rbFemale"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="여성"
+                            android:textSize="14sp" />
+                    </RadioGroup>
+
+                    <!-- 날짜/시간 입력 -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="희망 날짜/시간"
+                        android:textSize="14sp"
+                        android:textColor="#666666"
+                        android:layout_marginBottom="4dp" />
+
+                    <EditText
+                        android:id="@+id/etDateTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:hint="예) 2024-12-25 18:00"
+                        android:background="@drawable/image"
+                        android:padding="12dp"
+                        android:layout_marginBottom="16dp" />
+
+                    <!-- 식사 스타일 선택 -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="식사 스타일"
+                        android:textSize="14sp"
+                        android:textColor="#666666"
+                        android:layout_marginBottom="8dp" />
+
+                    <RadioGroup
+                        android:id="@+id/rgMealStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="20dp">
+
+                        <RadioButton
+                            android:id="@+id/rbQuiet"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="조용히 식사"
+                            android:textSize="14sp"
+                            android:layout_marginBottom="4dp" />
+
+                        <RadioButton
+                            android:id="@+id/rbChat"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="대화하며 식사"
+                            android:textSize="14sp" />
+                    </RadioGroup>
+
+                    <!-- 모집글 등록 버튼 -->
+                    <Button
+                        android:id="@+id/btnCreatePost"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:text="모집글 등록"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:background="@drawable/image"
+                        android:backgroundTint="#4ECDC4"
+                        android:textColor="@android:color/white" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- 기존 모집글 목록 -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="현재 모집 중인 합석"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="#333333"
+                        android:layout_marginBottom="16dp" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerSoloPosts"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
