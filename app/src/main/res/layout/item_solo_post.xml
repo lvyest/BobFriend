@@ -26,7 +26,7 @@
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/image"
+                android:src="@drawable/main_icon"
                 android:layout_marginEnd="12dp" />
 
             <!-- 사용자 정보 -->
@@ -91,7 +91,7 @@
             <ImageView
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:src="@drawable/image"
+                android:src="@drawable/main_icon"
                 android:layout_marginEnd="6dp" />
 
             <TextView
@@ -114,7 +114,7 @@
             <ImageView
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:src="@drawable/image"
+                android:src="@drawable/main_icon"
                 android:layout_marginEnd="6dp" />
 
             <TextView
@@ -139,7 +139,7 @@
                 android:layout_weight="1"
                 android:text="합류하기"
                 android:textSize="14sp"
-                android:background="@drawable/image"
+                android:background="@drawable/main_icon"
                 android:backgroundTint="#4ECDC4"
                 android:textColor="@android:color/white"
                 android:layout_marginEnd="8dp" />
@@ -151,7 +151,7 @@
                 android:layout_weight="1"
                 android:text="채팅하기"
                 android:textSize="14sp"
-                android:background="@drawable/image"
+                android:background="@drawable/main_icon"
                 android:backgroundTint="#45B7D1"
                 android:textColor="@android:color/white" />
         </LinearLayout>

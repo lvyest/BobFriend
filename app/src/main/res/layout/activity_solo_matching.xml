@@ -18,7 +18,7 @@
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/image"
+            android:src="@drawable/main_icon"
             android:layout_gravity="center_vertical" />
 
         <TextView
@@ -86,7 +86,7 @@
                         android:layout_height="48dp"
                         android:hint="나이를 입력하세요"
                         android:inputType="number"
-                        android:background="@drawable/image"
+                        android:background="@drawable/main_icon"
                         android:padding="12dp"
                         android:layout_marginBottom="16dp" />
 
@@ -137,7 +137,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:hint="예) 2024-12-25 18:00"
-                        android:background="@drawable/image"
+                        android:background="@drawable/main_icon"
                         android:padding="12dp"
                         android:layout_marginBottom="16dp" />
 
@@ -181,7 +181,7 @@
                         android:text="모집글 등록"
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        android:background="@drawable/image"
+                        android:background="@drawable/main_icon"
                         android:backgroundTint="#4ECDC4"
                         android:textColor="@android:color/white" />
                 </LinearLayout>
