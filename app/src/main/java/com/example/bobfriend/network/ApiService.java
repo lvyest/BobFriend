@@ -17,7 +17,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ApiService {
-    // 📍 경기도 공공데이터 식당 목록 API
+    // 경기도 공공데이터 식당 목록 API
     @GET("PlaceThatDoATasteyFoodSt")
     Call<RestaurantApiResponse> getRestaurants(
             @Query("KEY") String apiKey,
@@ -26,19 +26,19 @@ public interface ApiService {
             @Query("pSize") int pageSize
     );
 
-    // 📍 사용자 회원가입
+    // 사용자 회원가입
     @POST("users/register")
     Call<User> registerUser(@Body UserRequest userRequest);
 
-    // 📍 사용자 로그인
+    //  사용자 로그인
     @POST("users/login")
     Call<User> loginUser(@Body LoginRequest loginRequest);
 
-    // 📍 메시지 전송
+    // 메시지 전송
     @POST("messages")
     Call<MessageResponse> sendMessage(@Body MessageRequest messageRequest);
 
-    // 📍 사용자 간 메시지 가져오기
+    // 사용자 간 메시지 가져오기
     @GET("messages/{product_id}/{user1_id}/{user2_id}")
     Call<List<MessageResponse>> getMessagesBetweenUsers(
             @Path("product_id") int productId,
@@ -46,7 +46,7 @@ public interface ApiService {
             @Path("user2_id") int user2Id
     );
 
-    // 📍 대화 목록 가져오기
+    //대화 목록 가져오기
     @GET("messages/conversations/{user_id}")
     Call<String> getUserConversations(@Path("user_id") int userId);
 }

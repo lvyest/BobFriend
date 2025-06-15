@@ -18,13 +18,11 @@
         android:theme="@style/Theme.Bobfriend"
         tools:targetApi="31">
         <activity android:name=".WriteReviewActivity" />
-
         <activity android:name=".ChatActivity"/>
         <activity android:name=".OrderActivity"/>
         <activity android:name=".RegisterActivity"/>
         <activity android:name=".LoginActivity"/>
         <activity android:name=".MyPageActivity" />
-
         <activity android:name=".RestaurantDetailActivity"/>
         <activity android:name=".RestaurantListActivity"/>
         <activity android:name=".SoloMatchingActivity"/>

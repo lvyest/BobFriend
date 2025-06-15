@@ -1,4 +1,3 @@
-// 📍 LocationHelper.java
 package com.example.bobfriend.utils;
 
 import android.Manifest;

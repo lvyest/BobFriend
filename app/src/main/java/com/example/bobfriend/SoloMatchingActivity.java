@@ -7,12 +7,15 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.bobfriend.adapters.SoloPostAdapter;
 import com.example.bobfriend.database.DatabaseHelper;
 import com.example.bobfriend.models.SoloPost;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,17 +30,20 @@ public class SoloMatchingActivity extends AppCompatActivity {
     private SoloPostAdapter adapter;
     private ArrayList<SoloPost> soloPosts;
     private DatabaseHelper dbHelper;
-    private String restaurantId, restaurantName;
+
+    private int restaurantId;
+    private String restaurantName;
+    private String username; // SharedPreferences에서 불러올 값으로 가정
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_solo_matching);
 
-        int restaurantId = getIntent().getIntExtra("restaurantId", -1);
+        // 인텐트에서 값 받기
+        restaurantId = getIntent().getIntExtra("restaurantId", -1);
         restaurantName = getIntent().getStringExtra("restaurantName");
 
-        // ✅ Null 체크
         if (restaurantId == -1 || restaurantName == null) {
             Toast.makeText(this, "식당 정보가 누락되었습니다.", Toast.LENGTH_SHORT).show();
             finish();
@@ -45,6 +51,7 @@ public class SoloMatchingActivity extends AppCompatActivity {
         }
 
         dbHelper = new DatabaseHelper(this);
+        username = getUsernameFromSharedPrefs(); // 실제 구현 필요
 
         initViews();
         loadSoloPosts();
@@ -58,6 +65,7 @@ public class SoloMatchingActivity extends AppCompatActivity {
         rgMealStyle = findViewById(R.id.rgMealStyle);
         btnCreatePost = findViewById(R.id.btnCreatePost);
         recyclerSoloPosts = findViewById(R.id.recyclerSoloPosts);
+
         recyclerSoloPosts.setLayoutManager(new LinearLayoutManager(this));
         soloPosts = new ArrayList<>();
         adapter = new SoloPostAdapter(soloPosts);
@@ -66,8 +74,7 @@ public class SoloMatchingActivity extends AppCompatActivity {
 
     private void loadSoloPosts() {
         soloPosts.clear();
-        restaurantId = String.valueOf(getIntent().getIntExtra("restaurantId", -1));
-        soloPosts.addAll(dbHelper.getSoloPostsByRestaurant(restaurantId));
+        soloPosts.addAll(dbHelper.getSoloPostsByRestaurant(String.valueOf(restaurantId)));
         adapter.notifyDataSetChanged();
     }
 
@@ -86,10 +93,8 @@ public class SoloMatchingActivity extends AppCompatActivity {
             String gender = ((RadioButton) findViewById(rgGender.getCheckedRadioButtonId())).getText().toString();
             String mealStyle = ((RadioButton) findViewById(rgMealStyle.getCheckedRadioButtonId())).getText().toString();
 
-            String nickname = "익명"; // SharedPreferences 등에서 가져와도 됩니다.
-
-            SoloPost post = new SoloPost(nickname, age, gender, dateTime, mealStyle,
-                    Integer.parseInt(restaurantId), restaurantName, getCurrentTime());
+            SoloPost post = new SoloPost(username, age, gender, dateTime, mealStyle,
+                    restaurantId, restaurantName, getCurrentTime());
 
             dbHelper.insertSoloPost(post);
             Toast.makeText(this, "모집글이 등록되었습니다.", Toast.LENGTH_SHORT).show();
@@ -106,5 +111,10 @@ public class SoloMatchingActivity extends AppCompatActivity {
     private String getCurrentTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         return sdf.format(new Date());
+    }
+
+    private String getUsernameFromSharedPrefs() {
+        // 실제 SharedPreferences에서 값 가져오는 코드로 교체 필요
+        return "default_user";
     }
 }

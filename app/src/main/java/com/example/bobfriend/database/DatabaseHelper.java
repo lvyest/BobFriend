@@ -5,21 +5,22 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
 import com.example.bobfriend.models.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "bobfriend.db";
-    private static final int DB_VERSION = 4; // 버전 업그레이드
+    private static final int DB_VERSION = 6;
 
-    // 테이블 명
     private static final String TABLE_USERS = "users";
     private static final String TABLE_RESTAURANTS = "restaurants";
     private static final String TABLE_SOLO_POSTS = "solo_posts";
     private static final String TABLE_MESSAGES = "messages";
-    private static final String TABLE_REVIEWS = "reviews"; // 리뷰 테이블 추가
+    private static final String TABLE_REVIEWS = "reviews";
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -27,14 +28,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // 사용자
         db.execSQL("CREATE TABLE " + TABLE_USERS + "(" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "username TEXT," +
                 "password TEXT," +
                 "profileImage TEXT)");
 
-        // 식당
         db.execSQL("CREATE TABLE " + TABLE_RESTAURANTS + "(" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "name TEXT," +
@@ -43,7 +42,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "phone TEXT," +
                 "rate REAL)");
 
-        // 혼밥 모집글
         db.execSQL("CREATE TABLE " + TABLE_SOLO_POSTS + "(" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "username TEXT," +
@@ -55,7 +53,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "restaurantName TEXT," +
                 "createdAt TEXT)");
 
-        // 채팅 메시지
         db.execSQL("CREATE TABLE " + TABLE_MESSAGES + "(" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "sender TEXT," +
@@ -63,7 +60,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "content TEXT," +
                 "timestamp TEXT)");
 
-        // 리뷰 테이블
         db.execSQL("CREATE TABLE " + TABLE_REVIEWS + "(" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "username TEXT," +
@@ -76,8 +72,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if (oldVersion < 4) {
-            // ✅ 기존 restaurants 테이블 삭제 후 재생성
+        if (oldVersion < 6) {
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_RESTAURANTS);
             db.execSQL("CREATE TABLE " + TABLE_RESTAURANTS + "(" +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -87,7 +82,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     "phone TEXT," +
                     "rate REAL)");
 
-            // ✅ 리뷰 테이블도 마찬가지로 생성
             db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_REVIEWS + "(" +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "username TEXT," +
@@ -99,7 +93,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    // 사용자
+    // ---------- 사용자 ----------
     public long insertUser(User user) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -121,7 +115,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return null;
     }
 
-    // 식당
+    // ---------- 식당 ----------
     public long insertRestaurant(Restaurant restaurant) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -173,7 +167,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return null;
     }
 
-    // 혼밥 모집글
+    // ---------- 혼밥 모집 ----------
     public long insertSoloPost(SoloPost post) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -191,7 +185,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public List<SoloPost> getSoloPostsByRestaurant(String restaurantId) {
         List<SoloPost> list = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_SOLO_POSTS + " WHERE restaurantId=?", new String[]{String.valueOf(restaurantId)});
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_SOLO_POSTS + " WHERE restaurantId=?", new String[]{restaurantId});
         if (cursor.moveToFirst()) {
             do {
                 SoloPost p = new SoloPost();
@@ -211,7 +205,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return list;
     }
 
-    // 채팅 메시지
+    // ---------- 채팅 ----------
     public long insertMessage(Message message) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -243,7 +237,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return list;
     }
 
-    // 리뷰 관련 메서드
+    // ---------- 리뷰 ----------
     public long insertReview(Review review) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
