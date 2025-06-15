@@ -10,14 +10,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.bobfriend.adapters.MessageAdapter;
-import com.example.bobfriend.database.DatabaseHelper;
 import com.example.bobfriend.database.SharedPrefManager;
-import com.example.bobfriend.models.Message;
-import java.text.SimpleDateFormat;
+import com.example.bobfriend.models.MessageResponse;
+import com.example.bobfriend.utils.UserApiHelper;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -27,11 +24,11 @@ public class ChatActivity extends AppCompatActivity {
     private EditText etMessage;
     private Button btnSend;
     private MessageAdapter messageAdapter;
-    private DatabaseHelper dbHelper;
-    private List<Message> messageList = new ArrayList<>();
+    private List<MessageResponse> messageList = new ArrayList<>();
 
-    private String currentUser;
-    private String otherUser;
+    private int currentUserId;
+    private int otherUserId;
+    private int productId;
     private Handler refreshHandler;
     private Runnable refreshRunnable;
 
@@ -40,12 +37,14 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        dbHelper = new DatabaseHelper(this);
-        currentUser = SharedPrefManager.getCurrentUserNickname(this);
-        otherUser = getIntent().getStringExtra("otherUser");
+        currentUserId = SharedPrefManager.getCurrentUserId(this);
+        otherUserId = getIntent().getIntExtra("otherUserId", -1);
+        productId = getIntent().getIntExtra("productId", 1); // 기본값 1
 
-        if (otherUser == null) {
-            otherUser = "테스트유저"; // 임시 상대방
+        if (otherUserId == -1) {
+            Toast.makeText(this, "잘못된 접근입니다.", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
         }
 
         initViews();
@@ -63,7 +62,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private void setupMessageRecyclerView() {
         recyclerMessages.setLayoutManager(new LinearLayoutManager(this));
-        messageAdapter = new MessageAdapter(messageList, currentUser);
+        messageAdapter = new MessageAdapter(messageList, currentUserId);
         recyclerMessages.setAdapter(messageAdapter);
     }
 
@@ -79,27 +78,38 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void sendMessage(String content) {
-        Message message = new Message(currentUser, otherUser, content, getCurrentTime());
-        long result = dbHelper.insertMessage(message);
+        UserApiHelper.sendMessage(productId, currentUserId, otherUserId, content, new UserApiHelper.MessageSendListener() {
+            @Override
+            public void onSuccess(MessageResponse message) {
+                etMessage.setText("");
+                loadMessages(); // 메시지 목록 새로고침
+            }
 
-        if (result > 0) {
-            messageList.add(message);
-            messageAdapter.notifyItemInserted(messageList.size() - 1);
-            recyclerMessages.smoothScrollToPosition(messageList.size() - 1);
-            etMessage.setText("");
-        } else {
-            Toast.makeText(this, "메시지 전송 실패", Toast.LENGTH_SHORT).show();
-        }
+            @Override
+            public void onError(String error) {
+                Toast.makeText(ChatActivity.this, "메시지 전송 실패: " + error, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void loadMessages() {
-        messageList.clear();
-        messageList.addAll(dbHelper.getMessagesBetweenUsers(currentUser, otherUser));
-        messageAdapter.notifyDataSetChanged();
+        UserApiHelper.loadMessages(productId, currentUserId, otherUserId, new UserApiHelper.MessagesLoadListener() {
+            @Override
+            public void onSuccess(List<MessageResponse> messages) {
+                messageList.clear();
+                messageList.addAll(messages);
+                messageAdapter.updateMessages(messageList);
 
-        if (!messageList.isEmpty()) {
-            recyclerMessages.smoothScrollToPosition(messageList.size() - 1);
-        }
+                if (!messageList.isEmpty()) {
+                    recyclerMessages.smoothScrollToPosition(messageList.size() - 1);
+                }
+            }
+
+            @Override
+            public void onError(String error) {
+                Toast.makeText(ChatActivity.this, "메시지 로드 실패: " + error, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void setupMessageRefresh() {
@@ -111,11 +121,6 @@ public class ChatActivity extends AppCompatActivity {
                 refreshHandler.postDelayed(this, REFRESH_INTERVAL);
             }
         };
-    }
-
-    private String getCurrentTime() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-        return sdf.format(new Date());
     }
 
     @Override

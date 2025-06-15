@@ -65,7 +65,7 @@ public class OrderActivity extends AppCompatActivity {
     private void setupClickListeners() {
         btnOrder.setOnClickListener(v -> {
             if (totalPrice > 0) {
-                String username = SharedPrefManager.getCurrentUserNickname(this);
+                String username = SharedPrefManager.getCurrentUsername(this);
                 Toast.makeText(this, username + "님의 주문이 완료되었습니다!\n총 " + totalPrice + "원",
                         Toast.LENGTH_LONG).show();
                 finish();

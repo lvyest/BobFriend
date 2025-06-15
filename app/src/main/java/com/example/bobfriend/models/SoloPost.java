@@ -2,7 +2,7 @@ package com.example.bobfriend.models;
 
 public class SoloPost {
     private int id;
-    private String nickname;
+    private String username;
     private int age;
     private String gender;
     private String dateTime;
@@ -13,9 +13,9 @@ public class SoloPost {
 
     public SoloPost() {}
 
-    public SoloPost(String nickname, int age, String gender, String dateTime,
+    public SoloPost(String username, int age, String gender, String dateTime,
                     String mealStyle, int restaurantId, String restaurantName, String createdAt) {
-        this.nickname = nickname;
+        this.username = username;
         this.age = age;
         this.gender = gender;
         this.dateTime = dateTime;
@@ -29,9 +29,13 @@ public class SoloPost {
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
-    public String getNickname() { return nickname; }
-    public void setNickname(String nickname) { this.nickname = nickname; }
+    public String getUsername() {
+        return username;
+    }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
     public int getAge() { return age; }
     public void setAge(int age) { this.age = age; }
 

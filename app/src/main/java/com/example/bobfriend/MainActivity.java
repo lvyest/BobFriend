@@ -17,7 +17,7 @@ import com.example.bobfriend.database.SharedPrefManager;
 import com.example.bobfriend.models.Restaurant;
 import com.example.bobfriend.models.RestaurantApiResponse;
 import com.example.bobfriend.network.ApiService;
-import com.example.bobfriend.network.RetrofitClient;
+import com.example.bobfriend.network.RestaurantRetrofitClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,13 +75,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadUserInfo() {
-        String nickname = SharedPrefManager.getCurrentUserNickname(this);
+        String nickname = SharedPrefManager.getCurrentUsername(this);
         tvWelcome.setText(nickname + "님, 안녕하세요!");
         // 이미지 설정은 생략 (프로필 이미지 URL 처리 필요 시 여기에 추가)
     }
 
     private void fetchRestaurants() {
-        ApiService apiService = RetrofitClient.getApiService();
+        ApiService apiService = RestaurantRetrofitClient.getApiService();
         Call<RestaurantApiResponse> call = apiService.getRestaurants(
                 API_KEY,
                 "json",

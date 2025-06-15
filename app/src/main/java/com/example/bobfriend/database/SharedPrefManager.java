@@ -6,53 +6,64 @@ import com.example.bobfriend.models.User;
 
 public class SharedPrefManager {
 
-    private static final String SHARED_PREF_NAME = "BobFriendPrefs";
-    private static final String KEY_USER_ID = "user_id";
-    private static final String KEY_NICKNAME = "nickname";
-    private static final String KEY_PROFILE_IMAGE = "profile_image";
-    private static final String KEY_IS_LOGGED_IN = "is_logged_in";
+    private static final String SHARED_PREF_NAME = "bobfriend_pref";
+    private static final String KEY_ID = "key_id";
+    private static final String KEY_USERNAME = "key_username";
+    private static final String KEY_NAME = "key_name";
 
-    public static void saveUser(Context context, User user) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+    private static SharedPrefManager mInstance;
+    private final SharedPreferences sharedPreferences;
+    private final SharedPreferences.Editor editor;
 
-        editor.putInt(KEY_USER_ID, user.getId());
-        editor.putString(KEY_NICKNAME, user.getNickname());
-        editor.putString(KEY_PROFILE_IMAGE, user.getProfileImage());
-        editor.putBoolean(KEY_IS_LOGGED_IN, true);
+    private SharedPrefManager(Context context) {
+        sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+    }
 
+    public static synchronized SharedPrefManager getInstance(Context context) {
+        if (mInstance == null) {
+            mInstance = new SharedPrefManager(context);
+        }
+        return mInstance;
+    }
+
+    public void saveUser(User user) {
+        editor.putInt(KEY_ID, user.getId());
+        editor.putString(KEY_USERNAME, user.getUsername());
+        editor.putString(KEY_NAME, user.getName());
         editor.apply();
+    }
+
+    public User getUser() {
+        int id = sharedPreferences.getInt(KEY_ID, -1);
+        String username = sharedPreferences.getString(KEY_USERNAME, null);
+        String name = sharedPreferences.getString(KEY_NAME, null);
+        return new User(id, username, name);
+    }
+
+    public void clear() {
+        editor.clear();
+        editor.apply();
+    }
+
+    // ✅ static wrapper 메서드들
+    public static void saveUser(Context context, User user) {
+        getInstance(context).saveUser(user);
+    }
+
+    public static int getCurrentUserId(Context context) {
+        return getInstance(context).sharedPreferences.getInt(KEY_ID, -1);
+    }
+
+    public static String getCurrentUsername(Context context) {
+        return getInstance(context).sharedPreferences.getString(KEY_USERNAME, null);
     }
 
     public static boolean isLoggedIn(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
-        return sharedPreferences.getBoolean(KEY_IS_LOGGED_IN, false);
-    }
-
-    public static String getCurrentUserNickname(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
-        return sharedPreferences.getString(KEY_NICKNAME, "");
-    }
-
-    public static User getCurrentUser(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
-
-        if (!sharedPreferences.getBoolean(KEY_IS_LOGGED_IN, false)) {
-            return null;
-        }
-
-        User user = new User();
-        user.setId(sharedPreferences.getInt(KEY_USER_ID, -1));
-        user.setNickname(sharedPreferences.getString(KEY_NICKNAME, ""));
-        user.setProfileImage(sharedPreferences.getString(KEY_PROFILE_IMAGE, ""));
-
-        return user;
+        return getInstance(context).sharedPreferences.getInt(KEY_ID, -1) != -1;
     }
 
     public static void clearUser(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
-        editor.apply();
+        getInstance(context).editor.clear().apply();
     }
 }

@@ -2,23 +2,40 @@ package com.example.bobfriend.models;
 
 public class User {
     private int id;
-    private String nickname;
-    private String profileImage;
+    private String username;
+    private String name;
 
-    public User() {}
-
-    public User(String nickname, String profileImage) {
-        this.nickname = nickname;
-        this.profileImage = profileImage;
+    public User() {
+        // 기본 생성자 필요함 (예: Retrofit, SharedPreferences 등)
     }
 
-    // Getters and Setters
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public User(int id, String username, String name) {
+        this.id = id;
+        this.username = username;
+        this.name = name;
+    }
 
-    public String getNickname() { return nickname; }
-    public void setNickname(String nickname) { this.nickname = nickname; }
+    public int getId() {
+        return id;
+    }
 
-    public String getProfileImage() { return profileImage; }
-    public void setProfileImage(String profileImage) { this.profileImage = profileImage; }
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

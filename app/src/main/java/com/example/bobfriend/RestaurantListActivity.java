@@ -12,7 +12,7 @@ import com.example.bobfriend.adapters.RestaurantAdapter;
 import com.example.bobfriend.models.Restaurant;
 import com.example.bobfriend.models.RestaurantApiResponse;
 import com.example.bobfriend.network.ApiService;
-import com.example.bobfriend.network.RetrofitClient;
+import com.example.bobfriend.network.RestaurantRetrofitClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +44,7 @@ public class RestaurantListActivity extends AppCompatActivity {
     }
 
     private void fetchRestaurants() {
-        ApiService apiService = RetrofitClient.getApiService();
+        ApiService apiService = RestaurantRetrofitClient.getApiService();
         Call<RestaurantApiResponse> call = apiService.getRestaurants(
                 API_KEY,
                 "json",

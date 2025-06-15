@@ -8,17 +8,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.bobfriend.R;
-import com.example.bobfriend.models.Message;
+import com.example.bobfriend.models.MessageResponse;
 import java.util.List;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder> {
 
-    private List<Message> messageList;
-    private String currentUser;
+    private List<MessageResponse> messageResponseList;
+    private int currentUserId = -1;
 
-    public MessageAdapter(List<Message> messageList, String currentUser) {
-        this.messageList = messageList;
-        this.currentUser = currentUser;
+    public MessageAdapter(List<MessageResponse> messageResponseList, int currentUserId) {
+        this.messageResponseList = messageResponseList;
+        this.currentUserId = currentUserId;
     }
 
     @NonNull
@@ -31,32 +31,48 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
     @Override
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
-        Message message = messageList.get(position);
-        if (message.getSender().equals(currentUser)) {
+        MessageResponse message = messageResponseList.get(position);
+
+        if (message.getSender_id() == currentUserId) {
+            // 현재 사용자가 보낸 메시지
             holder.llMyMessage.setVisibility(View.VISIBLE);
             holder.llOtherMessage.setVisibility(View.GONE);
 
             holder.tvMyMessage.setText(message.getContent());
-            holder.tvMyMessageTime.setText(message.getTimestamp());
+            holder.tvMyMessageTime.setText(formatTimestamp(message.getCreated_at()));
         } else {
+            // 다른 사용자가 보낸 메시지
             holder.llMyMessage.setVisibility(View.GONE);
             holder.llOtherMessage.setVisibility(View.VISIBLE);
 
             holder.tvOtherMessage.setText(message.getContent());
-            holder.tvOtherMessageTime.setText(message.getTimestamp());
-            holder.tvOtherNickname.setText(message.getSender());
+            holder.tvOtherMessageTime.setText(formatTimestamp(message.getCreated_at()));
+            holder.tvOtherUsername.setText(message.getSender_username());
         }
     }
 
     @Override
     public int getItemCount() {
-        return messageList.size();
+        return messageResponseList != null ? messageResponseList.size() : 0;
+    }
+
+    private String formatTimestamp(String timestamp) {
+        // 타임스탬프 포맷팅 로직 (필요에 따라 수정)
+        if (timestamp != null && timestamp.length() >= 16) {
+            return timestamp.substring(11, 16); // HH:MM 형태로 표시
+        }
+        return timestamp;
+    }
+
+    public void updateMessages(List<MessageResponse> newMessages) {
+        this.messageResponseList = newMessages;
+        notifyDataSetChanged();
     }
 
     static class MessageViewHolder extends RecyclerView.ViewHolder {
         LinearLayout llMyMessage, llOtherMessage;
         TextView tvMyMessage, tvMyMessageTime;
-        TextView tvOtherMessage, tvOtherMessageTime, tvOtherNickname;
+        TextView tvOtherMessage, tvOtherMessageTime, tvOtherUsername;
 
         public MessageViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -68,7 +84,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
             tvOtherMessage = itemView.findViewById(R.id.tvOtherMessage);
             tvOtherMessageTime = itemView.findViewById(R.id.tvOtherMessageTime);
-            tvOtherNickname = itemView.findViewById(R.id.tvOtherNickname);
+            tvOtherUsername = itemView.findViewById(R.id.tvOtherUsername);
         }
     }
 }

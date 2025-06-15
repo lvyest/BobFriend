@@ -12,7 +12,7 @@ import java.util.List;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "bobfriend.db";
-    private static final int DB_VERSION = 3; // 버전 업그레이드
+    private static final int DB_VERSION = 4; // 버전 업그레이드
 
     // 테이블 명
     private static final String TABLE_USERS = "users";
@@ -30,7 +30,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // 사용자
         db.execSQL("CREATE TABLE " + TABLE_USERS + "(" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "nickname TEXT," +
+                "username TEXT," +
+                "password TEXT," +
                 "profileImage TEXT)");
 
         // 식당
@@ -45,7 +46,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // 혼밥 모집글
         db.execSQL("CREATE TABLE " + TABLE_SOLO_POSTS + "(" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "nickname TEXT," +
+                "username TEXT," +
                 "age INTEGER," +
                 "gender TEXT," +
                 "dateTime TEXT," +
@@ -75,7 +76,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if (oldVersion < 3) {
+        if (oldVersion < 4) {
             // ✅ 기존 restaurants 테이블 삭제 후 재생성
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_RESTAURANTS);
             db.execSQL("CREATE TABLE " + TABLE_RESTAURANTS + "(" +
@@ -102,19 +103,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public long insertUser(User user) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("nickname", user.getNickname());
-        values.put("profileImage", user.getProfileImage());
+        values.put("username", user.getUsername());
         return db.insert(TABLE_USERS, null, values);
     }
 
-    public User getUser(String nickname) {
+    public User getUser(String username) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_USERS + " WHERE nickname=?", new String[]{nickname});
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_USERS + " WHERE username=?", new String[]{username});
         if (cursor.moveToFirst()) {
             User user = new User();
             user.setId(cursor.getInt(cursor.getColumnIndexOrThrow("id")));
-            user.setNickname(cursor.getString(cursor.getColumnIndexOrThrow("nickname")));
-            user.setProfileImage(cursor.getString(cursor.getColumnIndexOrThrow("profileImage")));
+            user.setUsername(cursor.getString(cursor.getColumnIndexOrThrow("username")));
             cursor.close();
             return user;
         }
@@ -178,7 +177,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public long insertSoloPost(SoloPost post) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("nickname", post.getNickname());
+        values.put("username", post.getUsername());
         values.put("age", post.getAge());
         values.put("gender", post.getGender());
         values.put("dateTime", post.getDateTime());
@@ -197,7 +196,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             do {
                 SoloPost p = new SoloPost();
                 p.setId(cursor.getInt(cursor.getColumnIndexOrThrow("id")));
-                p.setNickname(cursor.getString(cursor.getColumnIndexOrThrow("nickname")));
+                p.setUsername(cursor.getString(cursor.getColumnIndexOrThrow("username")));
                 p.setAge(cursor.getInt(cursor.getColumnIndexOrThrow("age")));
                 p.setGender(cursor.getString(cursor.getColumnIndexOrThrow("gender")));
                 p.setDateTime(cursor.getString(cursor.getColumnIndexOrThrow("dateTime")));

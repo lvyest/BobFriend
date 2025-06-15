@@ -35,7 +35,7 @@ public class SoloPostAdapter extends RecyclerView.Adapter<SoloPostAdapter.SoloPo
     public void onBindViewHolder(@NonNull SoloPostViewHolder holder, int position) {
         SoloPost post = soloPosts.get(position);
 
-        holder.tvNickname.setText(post.getNickname());
+        holder.tvNickname.setText(post.getUsername());
         holder.tvAge.setText(post.getAge() + "세");
         holder.tvGender.setText(post.getGender());
         holder.tvCreatedAt.setText(post.getCreatedAt());
