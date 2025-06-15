@@ -12,7 +12,7 @@ import java.util.List;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "bobfriend.db";
-    private static final int DB_VERSION = 2; // 버전 업그레이드
+    private static final int DB_VERSION = 3; // 버전 업그레이드
 
     // 테이블 명
     private static final String TABLE_USERS = "users";
@@ -75,8 +75,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if (oldVersion < 2) {
-            // 리뷰 테이블 추가
+        if (oldVersion < 3) {
+            // ✅ 기존 restaurants 테이블 삭제 후 재생성
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_RESTAURANTS);
+            db.execSQL("CREATE TABLE " + TABLE_RESTAURANTS + "(" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "name TEXT," +
+                    "category TEXT," +
+                    "address TEXT," +
+                    "phone TEXT," +
+                    "rate REAL)");
+
+            // ✅ 리뷰 테이블도 마찬가지로 생성
             db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_REVIEWS + "(" +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "username TEXT," +
