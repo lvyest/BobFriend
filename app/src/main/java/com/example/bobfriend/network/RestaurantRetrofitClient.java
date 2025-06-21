@@ -4,16 +4,20 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RestaurantRetrofitClient {
-    private static final String BASE_URL = "https://openapi.gg.go.kr/";
     private static Retrofit retrofit = null;
 
-    public static ApiService getApiService() {
+    public static Retrofit getClient() {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
+                    .baseUrl("https://openapi.gg.go.kr/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
-        return retrofit.create(ApiService.class);
+        return retrofit;
+    }
+
+    // ✅ ApiService 인스턴스 반환용 메서드 추가
+    public static ApiService getApiService() {
+        return getClient().create(ApiService.class);
     }
 }

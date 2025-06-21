@@ -50,9 +50,8 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
     }
 
     private String formatDate(String dateString) {
-        // 간단한 날짜 포맷팅 (원하는 형태로 수정 가능)
         if (dateString != null && dateString.length() >= 10) {
-            return dateString.substring(0, 10); // yyyy-MM-dd 부분만 표시
+            return dateString.substring(0, 10);
         }
         return dateString;
     }

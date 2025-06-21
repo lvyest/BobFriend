@@ -1,13 +1,30 @@
 package com.example.bobfriend.models;
 
-public class Restaurant {
-    private String id;
-    private String name;
-    private String category;
-    private String address;
-    private String phone;
-    private float rate;
+import com.google.gson.annotations.SerializedName;
 
+public class Restaurant {
+
+    @SerializedName("RESTRT_NM")
+    private String name;
+
+    @SerializedName("REPRSNT_FOOD_NM")
+    private String category;
+
+    @SerializedName("REFINE_ROADNM_ADDR")
+    private String address;
+
+    @SerializedName("REFINE_WGS84_LAT")
+    private double latitude;
+
+    @SerializedName("REFINE_WGS84_LOGT")
+    private double longitude;
+
+    private String id;
+    private String phone;
+    private float rate = 0.0f;
+    private double distance = 0.0;
+
+    // ✅ 문제 해결용 생성자 추가
     public Restaurant(String id, String name, String category, String address, String phone, float rate) {
         this.id = id;
         this.name = name;
@@ -17,8 +34,15 @@ public class Restaurant {
         this.rate = rate;
     }
 
+    // 기본 생성자 (Retrofit 파싱용)
+    public Restaurant() {}
+
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -43,5 +67,29 @@ public class Restaurant {
 
     public void setRate(float rate) {
         this.rate = rate;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
     }
 }
