@@ -60,7 +60,6 @@ public class RestaurantDetailActivity extends AppCompatActivity {
     }
 
     private void loadRestaurantData() {
-        // ✅ Intent에서 전달받은 데이터로 Restaurant 객체 생성
         restaurantId = getIntent().getStringExtra("restaurantId");
         String restaurantName = getIntent().getStringExtra("restaurantName");
         String restaurantCategory = getIntent().getStringExtra("restaurantCategory");
@@ -72,7 +71,6 @@ public class RestaurantDetailActivity extends AppCompatActivity {
             restaurant = new Restaurant(restaurantId, restaurantName, restaurantCategory,
                     restaurantAddress, restaurantPhone, restaurantRate);
 
-            // ✅ UI에 데이터 설정
             tvRestaurantName.setText(restaurant.getName());
             tvCategory.setText(restaurant.getCategory());
             tvLocation.setText(restaurant.getAddress() != null ? restaurant.getAddress() : "주소 정보 없음");

@@ -34,14 +34,12 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         MessageResponse message = messageResponseList.get(position);
 
         if (message.getSender_id() == currentUserId) {
-            // 현재 사용자가 보낸 메시지
             holder.llMyMessage.setVisibility(View.VISIBLE);
             holder.llOtherMessage.setVisibility(View.GONE);
 
             holder.tvMyMessage.setText(message.getContent());
             holder.tvMyMessageTime.setText(formatTimestamp(message.getCreated_at()));
         } else {
-            // 다른 사용자가 보낸 메시지
             holder.llMyMessage.setVisibility(View.GONE);
             holder.llOtherMessage.setVisibility(View.VISIBLE);
 
@@ -57,9 +55,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     }
 
     private String formatTimestamp(String timestamp) {
-        // 타임스탬프 포맷팅 로직 (필요에 따라 수정)
         if (timestamp != null && timestamp.length() >= 16) {
-            return timestamp.substring(11, 16); // HH:MM 형태로 표시
+            return timestamp.substring(11, 16);
         }
         return timestamp;
     }

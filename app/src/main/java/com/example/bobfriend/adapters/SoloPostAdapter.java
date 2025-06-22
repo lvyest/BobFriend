@@ -60,7 +60,7 @@ public class SoloPostAdapter extends RecyclerView.Adapter<SoloPostAdapter.SoloPo
     static class SoloPostViewHolder extends RecyclerView.ViewHolder {
         TextView tvNickname, tvAge, tvGender, tvCreatedAt, tvDateTime, tvMealStyle;
         Button btnJoin, btnChat;
-        ImageView ivProfile; // 현재는 고정 이미지 사용 중
+        ImageView ivProfile;
 
         public SoloPostViewHolder(@NonNull View itemView) {
             super(itemView);

@@ -34,7 +34,7 @@ public class Restaurant {
         this.rate = rate;
     }
 
-    // 기본 생성자 (Retrofit 파싱용)
+
     public Restaurant() {}
 
     public String getId() {

@@ -44,7 +44,6 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- 활동 내역 섹션 -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -58,54 +57,103 @@
                 android:orientation="vertical"
                 android:padding="20dp">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="런던 베이글 뮤지엄 안전 >"
+                        android:textSize="14sp"
+                        android:textColor="#666666" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="🔄"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="활동 내역"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="#333333"
-                    android:layout_marginBottom="16dp" />
+                    android:text="현재 나의 순서"
+                    android:textSize="12sp"
+                    android:textColor="#999999"
+                    android:layout_marginBottom="4dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="8dp">
 
-                    <LinearLayout
-                        android:layout_width="0dp"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:gravity="center">
+                        android:text="110"
+                        android:textSize="48sp"
+                        android:textStyle="bold"
+                        android:textColor="#FF5722" />
 
-                        <TextView
-                            android:id="@+id/tvReservationCount"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="예약 내역: 3건"
-                            android:textSize="16sp"
-                            android:textColor="#666666" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:gravity="center">
+                        android:text="번째"
+                        android:textSize="16sp"
+                        android:textColor="#333333"
+                        android:layout_marginStart="4dp" />
+                </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/tvReviewCount"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="리뷰 작성: 2건"
-                            android:textSize="16sp"
-                            android:textColor="#666666" />
-                    </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="예상 발송 822번"
+                    android:textSize="14sp"
+                    android:textColor="#FF5722" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center">
+
+                    <Button
+                        android:id="@+id/btnDelay"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:text="미루기"
+                        android:textSize="14sp"
+                        android:textColor="#666666"
+                        android:background="@drawable/button_secondary"
+                        android:layout_marginEnd="8dp" />
+
+                    <Button
+                        android:id="@+id/btnCancel"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:text="취소하기"
+                        android:textSize="14sp"
+                        android:textColor="#666666"
+                        android:background="@drawable/button_secondary"
+                        android:layout_marginStart="8dp" />
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+
 
         <!-- 메뉴 섹션 -->
         <androidx.cardview.widget.CardView
@@ -138,10 +186,7 @@
                     android:background="?android:attr/selectableItemBackground"
                     android:gravity="center_vertical">
 
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/main_icon"/>
+
 
                     <TextView
                         android:layout_width="0dp"
@@ -152,10 +197,6 @@
                         android:textSize="16sp"
                         android:textColor="#333333" />
 
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="@drawable/main_icon"/>
                 </LinearLayout>
 
                 <View
@@ -172,10 +213,7 @@
                     android:background="?android:attr/selectableItemBackground"
                     android:gravity="center_vertical">
 
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/main_icon" />
+
 
                     <TextView
                         android:layout_width="0dp"
@@ -186,10 +224,6 @@
                         android:textSize="16sp"
                         android:textColor="#333333" />
 
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="@drawable/main_icon"/>
                 </LinearLayout>
 
                 <View
@@ -206,10 +240,7 @@
                     android:background="?android:attr/selectableItemBackground"
                     android:gravity="center_vertical">
 
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/main_icon" />
+
 
                     <TextView
                         android:layout_width="0dp"
@@ -220,10 +251,6 @@
                         android:textSize="16sp"
                         android:textColor="#333333" />
 
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="@drawable/main_icon"/>
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -237,7 +264,7 @@
             android:textSize="16sp"
             android:textStyle="bold"
             android:background="@drawable/main_icon"
-            android:textColor="#FF6B6B"
+            android:textColor="#FFFFFF"
             android:layout_marginTop="16dp" />
     </LinearLayout>
 </ScrollView>

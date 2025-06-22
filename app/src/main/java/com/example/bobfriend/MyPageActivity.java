@@ -18,23 +18,15 @@ public class MyPageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_my_page);
 
         initViews();
-        loadUserInfo();
         setupClickListeners();
     }
 
     private void initViews() {
         tvNickname = findViewById(R.id.tvNickname);
-        tvReservationCount = findViewById(R.id.tvReservationCount);
-        tvReviewCount = findViewById(R.id.tvReviewCount);
+
         btnLogout = findViewById(R.id.btnLogout);
     }
 
-    private void loadUserInfo() {
-        String nickname = SharedPrefManager.getCurrentUsername(this);
-        tvNickname.setText("닉네임: " + nickname);
-        tvReservationCount.setText("예약 내역: 3건");
-        tvReviewCount.setText("리뷰 작성: 2건");
-    }
 
     private void setupClickListeners() {
         btnLogout.setOnClickListener(v -> {

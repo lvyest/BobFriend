@@ -33,7 +33,7 @@ public class SoloMatchingActivity extends AppCompatActivity {
 
     private int restaurantId;
     private String restaurantName;
-    private String username; // SharedPreferences에서 불러올 값으로 가정
+    private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

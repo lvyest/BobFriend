@@ -50,18 +50,14 @@ public class WriteReviewActivity extends AppCompatActivity {
     }
 
     private void loadData() {
-        // Intent에서 데이터 받기
         restaurantId = getIntent().getStringExtra("restaurantId");
         restaurantName = getIntent().getStringExtra("restaurantName");
 
-        // 현재 로그인된 사용자 정보 가져오기 (SharedPreferences에서)
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         currentUsername = prefs.getString("current_user", "익명사용자");
 
-        // UI 설정
         tvRestaurantName.setText(restaurantName);
 
-        // 이미 리뷰를 작성했는지 확인
         if (dbHelper.hasUserReviewed(currentUsername, restaurantId)) {
             Toast.makeText(this, "이미 이 식당에 리뷰를 작성하셨습니다.", Toast.LENGTH_SHORT).show();
             finish();
@@ -77,7 +73,6 @@ public class WriteReviewActivity extends AppCompatActivity {
         float rating = ratingBar.getRating();
         String comment = etComment.getText().toString().trim();
 
-        // 유효성 검사
         if (rating == 0) {
             Toast.makeText(this, "별점을 입력해주세요.", Toast.LENGTH_SHORT).show();
             return;
@@ -88,21 +83,17 @@ public class WriteReviewActivity extends AppCompatActivity {
             return;
         }
 
-        // 현재 시간
         String currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
                 .format(new Date());
 
-        // 리뷰 객체 생성
         Review review = new Review(currentUsername, restaurantId, restaurantName,
                 rating, comment, currentTime);
 
-        // 데이터베이스에 저장
         long result = dbHelper.insertReview(review);
 
         if (result != -1) {
             Toast.makeText(this, "리뷰가 등록되었습니다.", Toast.LENGTH_SHORT).show();
 
-            // 결과를 이전 액티비티로 전달
             setResult(RESULT_OK);
             finish();
         } else {

@@ -38,10 +38,10 @@ public class RestaurantApiResponse {
         @SerializedName("SIGUN_CD")
         public String sigunCd;
 
-        @SerializedName("RESTRT_NM")  // 수정: BIZPLC_NM -> RESTRT_NM
+        @SerializedName("RESTRT_NM")
         public String name;
 
-        @SerializedName("REPRSNT_FOOD_NM")  // 수정: FOOD_MENU -> REPRSNT_FOOD_NM
+        @SerializedName("REPRSNT_FOOD_NM")
         public String category;
 
         @SerializedName("REFINE_ROADNM_ADDR")

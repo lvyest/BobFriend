@@ -65,7 +65,6 @@ public class LocationHelper {
         };
 
         try {
-            // GPS와 네트워크 위치 모두 시도
             if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                 locationManager.requestLocationUpdates(
                         LocationManager.GPS_PROVIDER,
@@ -82,7 +81,6 @@ public class LocationHelper {
                 );
             }
 
-            // 마지막 알려진 위치 먼저 시도
             Location lastKnownLocation = getLastKnownLocation();
             if (lastKnownLocation != null) {
                 listener.onLocationReceived(

@@ -97,7 +97,7 @@ public class RestaurantListActivity extends AppCompatActivity {
                                     );
                                     restaurantList.add(restaurant);
 
-                                    // 로그로 데이터 확인
+
                                     Log.d(TAG, "Restaurant " + i + ": " + r.name + ", " + r.category);
                                 }
                             }
