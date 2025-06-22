@@ -122,7 +122,7 @@ public class UserApiHelper {
         });
     }
 
-    public static void getUserConversations(int userId, Callback<String> callback) {
+    public static void getUserConversations(int userId, Callback<List<MessageResponse>> callback) {
         UserRetrofitClient.getApiService().getUserConversations(userId).enqueue(callback);
     }
 }

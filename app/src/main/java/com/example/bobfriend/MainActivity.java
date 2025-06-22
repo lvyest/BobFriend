@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         adapter = new RestaurantAdapter(restaurantList, this);
         recyclerViewRestaurants.setAdapter(adapter);
 
-        cvChat.setOnClickListener(v -> startActivity(new Intent(this, ChatActivity.class)));
+        cvChat.setOnClickListener(v -> startActivity(new Intent(this, ChatListActivity.class)));
         cvMyPage.setOnClickListener(v -> startActivity(new Intent(this, MyPageActivity.class)));
 
         loadUserInfo();

@@ -26,6 +26,7 @@
         <activity android:name=".RestaurantDetailActivity"/>
         <activity android:name=".RestaurantListActivity"/>
         <activity android:name=".SoloMatchingActivity"/>
+        <activity android:name=".ChatListActivity"/>
 
 
         <activity

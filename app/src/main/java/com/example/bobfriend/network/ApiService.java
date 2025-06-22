@@ -48,5 +48,5 @@ public interface ApiService {
 
     //대화 목록 가져오기
     @GET("messages/conversations/{user_id}")
-    Call<String> getUserConversations(@Path("user_id") int userId);
+    Call<List<MessageResponse>> getUserConversations(@Path("user_id") int userId);
 }

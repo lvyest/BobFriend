@@ -216,6 +216,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.insert(TABLE_MESSAGES, null, values);
     }
 
+
     public List<Message> getMessagesBetweenUsers(String user1, String user2) {
         List<Message> list = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
